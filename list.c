@@ -29,11 +29,11 @@ int main(void)
     //give each node their data
     head->data = 5;
     head->next = NULL;
-    // head->next = second;
-    // second->data = 7;
-    // second->next = third;
-    // third->data = 9;
-    // third->next = NULL;
+    //head->next = second;
+    //second->data = 7;
+    //second->next = third;
+    //third->data = 9;
+    //third->next = NULL;
 
     //same as:
     // head->data = 5;
@@ -84,15 +84,14 @@ int pop(struct Node* head)
         {
             int data = trav->data;
             free(trav);
-            printf("%p\n", trav->next);
-            printf("%p\n", trav);
             trav = NULL;
-            //printf("%p\n", trav->next);
             printf("%p\n", trav);
             //printf("%i\n", trav->data);
+           return data;
 
-            return data;
+           //second and third malloc causing a memory leak
         }
+
     while(trav->next->next != NULL)
     {
         trav = trav->next;
