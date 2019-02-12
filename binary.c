@@ -37,7 +37,7 @@ void testTree()
 int main(void)
 {
     printf("Hello\n");
-    //int data[] = {5,8,2,1,9,4,1,3};
+    int data[] = {5,8,2,1,9,4,1,3};
     testTree();
 }
 
