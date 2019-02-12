@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<assert.h>
+#include<stdbool.h>
 
 typedef struct ListNode
 {
@@ -40,7 +41,7 @@ int main(void)
     testTree();
 }
 
-void add(int data);
+void add(int data)
 {
     BinaryNode* newNode = malloc(sizeof(BinaryNode));
 
@@ -62,7 +63,7 @@ void add(int data);
 
 }
 
-int seek(int data);
+int seek(int data)
 {
     return 0;
 }
