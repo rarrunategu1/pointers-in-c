@@ -8,27 +8,31 @@ typedef struct Node
 }   Node;
 
 void push(int, struct Node*);
-int pop(struct Node*);
-int peek(struct Node*);
+int pop(Node*);
+int peek(Node*);
 void freeList(Node*);
 
 int main(void)
 {
     //printf("Hello\n");
     //HEAD NODE
-    struct Node* head = NULL;
+    Node* list = NULL;
 
-    struct Node* second = NULL;
-    struct Node* third = NULL;
+    // struct Node* second = NULL;
+    // struct Node* third = NULL;
 
     //CREATE THE NODES
-    head = (struct Node*)malloc(sizeof(struct Node));
-    second = (struct Node*)malloc(sizeof(struct Node));
-    third = (struct Node*)malloc(sizeof(struct Node));
+     Node* newNode = (Node*)malloc(sizeof(Node));
+     newNode->data = 5;
+     newNode->next = NULL;
+
+     list = newNode;
+    // second = (struct Node*)malloc(sizeof(struct Node));
+    // third = (struct Node*)malloc(sizeof(struct Node));
 
     //give each node their data
-    head->data = 5;
-    head->next = NULL;
+    // head->data = 5;
+    // head->next = NULL;
     //head->next = second;
     //second->data = 7;
     //second->next = third;
@@ -44,10 +48,17 @@ int main(void)
     // head->next->next->next = NULL;
 
     //adds 11 to the end of the list
-    //push(11, head);
-    printf("The last value at the end of list removed is: %i\n", pop(head));
-    //printf("Peep last value at end of list now.  It is: %i\n", peek(head));
-    //freeList(head);
+    push(3, list);
+    push(12, list);
+    printf("Popped last value: %i\n", pop(list));
+    push(14, list);
+    printf("Popped last value: %i\n", pop(list));
+
+    //int result = pop(head);
+    printf("The last value at the end of list removed is: %i\n", pop(list));
+    printf("Peep last value at end of list now.  It is: %i\n", peek(list));
+    freeList(list);
+
 
 }
 
@@ -55,19 +66,27 @@ void push(int data, struct Node* head)
 {
     struct Node* trav = head;
 
-    while(trav->next != NULL)
+    while(trav != NULL && trav->next != NULL)
     {
         //grabs next item of our list
-        trav= trav->next;
+        trav = trav->next;
     }
 
     //Make space for your new node
-    trav->next = (struct Node*)malloc(sizeof(struct Node));
+    Node* newNode = (Node*)malloc(sizeof(Node));
 
     //add another node at end of list
-    trav->next->data = data;
-    trav->next->next = NULL;
-    printf("Added Node has a value of: %i\n", trav->next->data);
+    newNode->data = data;
+    newNode->next = NULL;
+    if(trav == NULL)
+    {
+        head = newNode;
+        return;
+    }
+
+    trav->next = newNode;
+
+    //printf("Added Node has a value of: %i\n", trav->next->data);
 
     //ANOTHER WAY THAT'S QUICKER BUT USES MORE MEMORY
     // struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
@@ -80,12 +99,18 @@ void push(int data, struct Node* head)
 int pop(struct Node* head)
 {
     struct Node* trav = head;
+
+    if(trav == NULL)
+    {
+        //our linked list only accepts positive numbers.  You can't pop if trav is equal to NULL
+        return -1;
+    }
     if(trav->next == NULL)
         {
             int data = trav->data;
             free(trav);
-            trav = NULL;
-            printf("%p\n", trav);
+            //trav = NULL;
+            //printf("%p\n", trav);
             //printf("%i\n", trav->data);
            return data;
 
@@ -113,6 +138,11 @@ int peek(struct Node* head)
     //get to end of list and return the data
     struct Node* trav = head;
 
+     if(trav == NULL)
+    {
+        //our linked list only accepts positive numbers.  You can't pop if trav is equal to NULL
+        return -1;
+    }
 
     while(trav->next != NULL)
     {
@@ -127,6 +157,11 @@ int peek(struct Node* head)
 void freeList(Node* root)
 {
     Node* trav = root;
+
+    if(trav == NULL)
+    {
+        return;
+    }
 
     //if only one item
     if (trav->next == NULL)
@@ -146,7 +181,8 @@ void freeList(Node* root)
     freeList(trav->next);
     //printf("%i\n", trav->next->data);
     //frees head
-    free(trav);
+    free(root);
+    return;
 
 
     // int data = trav->data;
