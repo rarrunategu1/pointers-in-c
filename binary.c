@@ -79,19 +79,25 @@ void testAdd()
     add(1);
     assert(seek(1) && "found the added 1");
     assert(seek(2) && "found the 2 still");
-    add(8);
-    assert(seek(8) && "found the added 8");
-    add(9);
-    assert(seek(9) && "found the added 9");
-    assert(seek(8) && "found the 8 still");
+    // add(8);
+    // assert(seek(8) && "found the added 8");
+    // add(9);
+    // assert(seek(9) && "found the added 9");
+    // assert(seek(8) && "found the 8 still");
     // add(4);
     // assert(seek(4) && "found the added 4");
     // add(1);
     // assert(seek(1) && "duplicate 1");
-    add(3);
-    assert(seek(3) && "found the added 3");
+    // add(3);
+    // assert(seek(3) && "found the added 3");
 }
+void testFreeTree()
+{
+    assert(seek(5) && "5 has been freed");
+    assert(seek(2) && "2 has been freed");
+    assert(seek(1) && "1 has been freed");
 
+}
 int main(void)
 {
     printf("Hello\n");
@@ -100,6 +106,7 @@ int main(void)
     //testSeek();
     testAdd();
     freeTree();
+    testFreeTree();
 }
 
 int seek(int query)
@@ -214,19 +221,31 @@ void freeTree()
     //free all heap nodes from tree
 
     //if nav->smaller or nav->larger == null free nav
-    //if
 
     BinaryNode *nav = root;
+    // printf("%i\n", nav->smaller->data);
+    // printf("%p\n", nav->smaller);
 
-    if(root->smaller != NULL)
+    if(nav->smaller == NULL)
     {
-        root = root->smaller;
-        printf("%i\n", root->smaller->data);
-        //free(root->smaller);
+        free(nav);
         return;
     }
-    // freeTree(nav-smaller);
-    // free(nav);
+    //freeTree(root-smaller);
 
+    if(nav->smaller != NULL)
+    {
+        nav = nav->smaller;
+        //printf("%i\n", nav->smaller->data);
+    }
+    //printf("%p\n", nav->smaller);
+    //printf("%i\n", nav->smaller->data);
+    free(nav->smaller);
+    free(nav);
+    //printf("%p\n", nav->smaller);
+
+
+
+    // printf("%p\n", nav->smaller);
 }
 
