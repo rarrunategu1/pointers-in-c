@@ -22,7 +22,7 @@ BinaryNode* root = NULL;
 //get add to work and hacker challenge is to get seek to work
 void add(int);
 int seek(int); //true 1 or false 0 if item exists in tree
-void freeTree();
+void freeTree(BinaryNode*);
 
 void testTree()
 {
@@ -79,23 +79,26 @@ void testAdd()
     add(1);
     assert(seek(1) && "found the added 1");
     assert(seek(2) && "found the 2 still");
-    // add(8);
-    // assert(seek(8) && "found the added 8");
-    // add(9);
-    // assert(seek(9) && "found the added 9");
-    // assert(seek(8) && "found the 8 still");
+    add(8);
+    assert(seek(8) && "found the added 8");
+    add(9);
+    assert(seek(9) && "found the added 9");
+    assert(seek(8) && "found the 8 still");
     // add(4);
     // assert(seek(4) && "found the added 4");
-    // add(1);
+    //add(1);
     // assert(seek(1) && "duplicate 1");
-    // add(3);
-    // assert(seek(3) && "found the added 3");
+    add(3);
+    assert(seek(3) && "found the added 3");
 }
 void testFreeTree()
 {
-    assert(seek(5) && "5 has been freed");
-    assert(seek(2) && "2 has been freed");
-    assert(seek(1) && "1 has been freed");
+    assert(!seek(5) && "5 has been freed");
+    assert(!seek(2) && "2 has been freed");
+    assert(!seek(1) && "1 has been freed");
+    assert(!seek(8) && "8 has been freed");
+    assert(!seek(3) && "3 has been freed");
+    assert(!seek(9) && "9 has been freed");
 
 }
 int main(void)
@@ -105,7 +108,7 @@ int main(void)
     // testTree();
     //testSeek();
     testAdd();
-    freeTree();
+    freeTree(root);
     testFreeTree();
 }
 
@@ -216,36 +219,34 @@ void add(int item)
 
 }
 
-void freeTree()
+void freeTree(BinaryNode* nav)
 {
     //free all heap nodes from tree
 
-    //if nav->smaller or nav->larger == null free nav
-
-    BinaryNode *nav = root;
+    //BinaryNode *nav = root;
     // printf("%i\n", nav->smaller->data);
     // printf("%p\n", nav->smaller);
 
-    if(nav->smaller == NULL)
+    if(nav->smaller == NULL && nav->larger == NULL)
     {
         free(nav);
         return;
     }
-    //freeTree(root-smaller);
 
     if(nav->smaller != NULL)
     {
-        nav = nav->smaller;
+        //nav = nav->smaller;
         //printf("%i\n", nav->smaller->data);
+        freeTree(nav->smaller);
+
     }
-    //printf("%p\n", nav->smaller);
-    //printf("%i\n", nav->smaller->data);
-    free(nav->smaller);
+    if(nav->larger != NULL)
+    {
+        freeTree(nav->larger);
+    }
+
     free(nav);
-    //printf("%p\n", nav->smaller);
+    return;
 
-
-
-    // printf("%p\n", nav->smaller);
 }
 
